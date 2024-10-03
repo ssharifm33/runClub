@@ -2,18 +2,18 @@ import React from 'react';
 
 function RunItem({ run }) {
   return (
-    <li>
-      <p>Date: {formatDate(run.date)}</p>
-      <p>Distance: {run.distance} km</p>
-      <p>Time: {run.time} minutes</p>
-    </li>
+    <div className="card h-100">
+      <div className="card-header text-white bg-dark">
+        {new Date(run.date).toLocaleDateString()}
+      </div>
+      <div className="card-body">
+        <p className="card-text">
+          <strong>Distance:</strong> {run.distance} km<br />
+          <strong>Time:</strong> {run.time}
+        </p>
+      </div>
+    </div>
   );
 }
-
-function formatDate(dateString) {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  return new Date(dateString).toLocaleDateString(undefined, options);
-}
-
 
 export default RunItem;
