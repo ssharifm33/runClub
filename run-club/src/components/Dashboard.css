@@ -1,0 +1,21 @@
+.container {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.container h1 {
+  color: #333;
+}
+
+.container p {
+  font-size: 1.2em;
+}
+
+.container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.container ul li {
+  margin-bottom: 10px;
+}
