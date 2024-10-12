@@ -1,4 +1,4 @@
 [build]
   base    = "run-club"
-  command = "npm run build"
+  command = "CI= npm run build"
   publish = "build"
