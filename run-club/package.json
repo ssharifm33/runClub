@@ -40,5 +40,8 @@
   },
   "devDependencies": {
     "eslint-plugin-jsx-a11y": "^6.10.0"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
