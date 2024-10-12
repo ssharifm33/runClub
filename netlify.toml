@@ -1,0 +1,4 @@
+[build]
+  base    = "run-club"
+  command = "npm run build"
+  publish = "build"
