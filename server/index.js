@@ -1,7 +1,5 @@
 const express = require('express');
-
-import cors from 'cors';
-import './index.css';
+const cors = require('cors'); // Use require instead of import
 const app = express();
 const port = 5001;
 
@@ -13,12 +11,10 @@ let runs = [
   { id: 2, distance: 3.5, route: 'Beach Route', date: '2024-09-16', time: '30' }
 ];
 
-
 let routes = [
   { id: 1, name: 'Park Route', distance: 5.0 },
   { id: 2, name: 'Beach Route', distance: 3.5 }
 ];
-
 
 // Runs endpoints
 app.get('/runs', (req, res) => {
