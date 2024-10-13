@@ -1,6 +1,9 @@
 // App.js
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; // For Bootstrap (if you are using it)
+import './index.css'; // Your custom CSS (if applicable)
+import 'leaflet/dist/leaflet.css'; // Leaflet CSS
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import LogRun from './components/LogRun';
