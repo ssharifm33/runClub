@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Polyline } from 'react-leaflet';
+import { MapContainer, TileLayer, Polyline, useMap } from 'react-leaflet';
 import { getDistance } from 'geolib';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
 
+// Custom hook to update the map's center
+function RecenterMap({ currentLocation }) {
+  const map = useMap();
+  useEffect(() => {
+    if (currentLocation) {
+      map.setView(currentLocation);
+    }
+  }, [currentLocation, map]);
+
+  return null;
+}
+
 function PlanRun() {
   const [positions, setPositions] = useState([]);
   const [distance, setDistance] = useState(0);
-  const [currentLocation, setCurrentLocation] = useState([51.505, -0.09]); // Default center
+  const [currentLocation, setCurrentLocation] = useState([51.505, -0.09]); // Default location
 
-  // Use the Geolocation API to get user's current location
+  // Fetch current location when component mounts
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -61,7 +73,7 @@ function PlanRun() {
       <h1>Plan a New Run</h1>
       <p>Total Distance: {distance} km</p>
       <MapContainer
-        center={currentLocation} // Center at user's current location
+        center={currentLocation}
         zoom={13}
         style={{ height: '500px', width: '100%' }}
         onClick={addPosition}
@@ -70,6 +82,8 @@ function PlanRun() {
           attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        {/* Call RecenterMap component to update map center */}
+        <RecenterMap currentLocation={currentLocation} />
         {positions.length > 0 && <Polyline positions={positions} color="blue" />}
       </MapContainer>
       <button onClick={saveRoute}>Save Route</button>
