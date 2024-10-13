@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Polyline } from 'react-leaflet';
 import { getDistance } from 'geolib';
 import 'leaflet/dist/leaflet.css';
@@ -7,6 +7,21 @@ import 'leaflet-defaulticon-compatibility';
 function PlanRun() {
   const [positions, setPositions] = useState([]);
   const [distance, setDistance] = useState(0);
+  const [currentLocation, setCurrentLocation] = useState([51.505, -0.09]); // Default center
+
+  // Use the Geolocation API to get user's current location
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setCurrentLocation([position.coords.latitude, position.coords.longitude]);
+        },
+        (error) => {
+          console.error("Error getting current location", error);
+        }
+      );
+    }
+  }, []);
 
   const addPosition = (e) => {
     const newPositions = [...positions, [e.latlng.lat, e.latlng.lng]];
@@ -27,39 +42,38 @@ function PlanRun() {
     return (total / 1000).toFixed(2); // Convert to km
   };
 
-const saveRoute = () => {
-  const newRoute = { positions, distance };
+  const saveRoute = () => {
+    const newRoute = { positions, distance };
 
-  fetch('http://localhost:5001/routes', { // Updated port number
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newRoute),
-  })
-    .then((response) => response.json())
-    .then(() => {
-      alert('Route saved!');
-    });
-};
-
+    fetch('http://localhost:5001/routes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newRoute),
+    })
+      .then((response) => response.json())
+      .then(() => {
+        alert('Route saved!');
+      });
+  };
 
   return (
-      <div className="container">
-          <h1>Plan a New Run</h1>
-          <p>Total Distance: {distance} km</p>
-          <MapContainer
-              center={[51.505, -0.09]}
-              zoom={13}
-              style={{height: '500px', width: '100%'}}
-              onClick={addPosition}
-          >
-              <TileLayer
-                  attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a>'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              {positions.length > 0 && <Polyline positions={positions} color="blue"/>}
-          </MapContainer>
-          <button onClick={saveRoute}>Save Route</button>
-      </div>
+    <div className="container">
+      <h1>Plan a New Run</h1>
+      <p>Total Distance: {distance} km</p>
+      <MapContainer
+        center={currentLocation} // Center at user's current location
+        zoom={13}
+        style={{ height: '500px', width: '100%' }}
+        onClick={addPosition}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a>'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {positions.length > 0 && <Polyline positions={positions} color="blue" />}
+      </MapContainer>
+      <button onClick={saveRoute}>Save Route</button>
+    </div>
   );
 }
 
