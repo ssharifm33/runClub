@@ -1,4 +1,6 @@
 import React from 'react';
+import './RunItem.css';
+
 
 function RunItem({ run }) {
   return (

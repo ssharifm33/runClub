@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import RunItem from './RunItem';
 import Navbar from './Navbar';
+import './Dashboard.css';
 
 function Dashboard() {
   const [runs, setRuns] = useState([]);
