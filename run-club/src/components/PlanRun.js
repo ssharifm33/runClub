@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Polyline, useMap } from 'react-leaflet';
 import { getDistance } from 'geolib';
+import Navbar from './Navbar'; // Import Navbar
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
+import './PlanRun.css'; // Import PlanRun CSS
 
 // Custom hook to update the map's center
 function RecenterMap({ currentLocation }) {
@@ -69,25 +71,28 @@ function PlanRun() {
   };
 
   return (
-    <div className="container">
-      <h1>Plan a New Run</h1>
-      <p>Total Distance: {distance} km</p>
-      <MapContainer
-        center={currentLocation}
-        zoom={13}
-        style={{ height: '500px', width: '100%' }}
-        onClick={addPosition}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {/* Call RecenterMap component to update map center */}
-        <RecenterMap currentLocation={currentLocation} />
-        {positions.length > 0 && <Polyline positions={positions} color="blue" />}
-      </MapContainer>
-      <button onClick={saveRoute}>Save Route</button>
-    </div>
+    <>
+      <Navbar /> {/* Add Navbar here */}
+      <div className="container plan-run">
+        <h1>Plan a New Run</h1>
+        <p>Total Distance: {distance} km</p>
+        <MapContainer
+          center={currentLocation}
+          zoom={13}
+          style={{ height: '500px', width: '100%' }}
+          onClick={addPosition}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a>'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {/* Call RecenterMap component to update map center */}
+          <RecenterMap currentLocation={currentLocation} />
+          {positions.length > 0 && <Polyline positions={positions} color="blue" />}
+        </MapContainer>
+        <button onClick={saveRoute}>Save Route</button>
+      </div>
+    </>
   );
 }
 

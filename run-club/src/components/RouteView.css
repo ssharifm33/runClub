@@ -1,0 +1,29 @@
+.route-view {
+    padding: 40px;
+    background-color: #fff;
+    min-height: 100vh;
+  }
+  
+  .route-view h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #495057;
+  }
+  
+  .route-view p {
+    font-size: 1.2rem;
+    color: #6c757d;
+    margin-bottom: 30px;
+  }
+  
+  .map-container {
+    height: 500px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .leaflet-container {
+    border-radius: 10px;
+  }
+  

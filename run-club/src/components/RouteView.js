@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
+import './RouteView.css';
+
 
 function RouteView() {
   const { id } = useParams();
