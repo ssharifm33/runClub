@@ -16,6 +16,9 @@ function Navbar() {
         <li>
           <Link to="/plan-run">Plan Run</Link>
         </li>
+        <li>
+          <Link to="/saved-runs">Saved Runs</Link> 
+        </li>
       </ul>
     </nav>
   );

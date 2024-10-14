@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard';
 import LogRun from './components/LogRun';
 import PlanRun from './components/PlanRun';
 import RouteView from './components/RouteView';
+import SavedRuns from './components/Dashboard';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/log-run" element={<LogRun />} />
           <Route path="/plan-run" element={<PlanRun />} />
           <Route path="/route/:id" element={<RouteView />} />
+          <Route path="/saved-runs" element={<SavedRuns />} /> 
         </Routes>
       </div>
     </Router>

@@ -140,19 +140,38 @@ function PlanRun() {
   };
 
   // Save route as a JSON object to the server
-  const saveRoute = () => {
-    const newRoute = { positions: snappedPositions, distance, elevationGain };
+  // Save route as a JSON object to the server
+const saveRoute = () => {
+  // Prompt user to give the route a name
+  const routeName = prompt('Please enter a name for this route');
 
-    fetch('http://localhost:5001/routes', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newRoute),
-    })
-      .then((response) => response.json())
-      .then(() => {
-        alert('Route saved!');
-      });
+  if (!routeName) {
+    alert('Route name is required!');
+    return;
+  }
+
+  const newRoute = {
+    name: routeName,                // Add name for the route
+    positions: snappedPositions,    // The snapped positions (coordinates) of the route
+    distance: distance,             // Total distance of the route
+    elevationGain: elevationGain,   // Total elevation gain
+    date: new Date().toISOString()  // Store the date when the route was created
   };
+
+  fetch('http://localhost:5001/routes', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newRoute),
+  })
+    .then((response) => response.json())
+    .then(() => {
+      alert('Route saved successfully!');
+    })
+    .catch((error) => {
+      console.error('Error saving the route:', error);
+    });
+};
+
 
   return (
     <>
