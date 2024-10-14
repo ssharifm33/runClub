@@ -3,14 +3,13 @@ import { MapContainer, TileLayer, Polyline, useMap } from 'react-leaflet';
 import { getDistance } from 'geolib';
 import mapboxgl from 'mapbox-gl';
 import MapboxClient from '@mapbox/mapbox-sdk';
-import { saveAs } from 'file-saver';
 import Navbar from './Navbar'; // Import Navbar
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
 import './PlanRun.css'; // Import PlanRun CSS
 
 // Initialize Mapbox client
-const mapboxClient = MapboxClient({ accessToken: 'YOUR_MAPBOX_ACCESS_TOKEN' });
+const mapboxClient = MapboxClient({ accessToken: 'pk.eyJ1Ijoic3NoYXJpZm0iLCJhIjoiY20yOTlyanU0MDM4ajJsb2xub2Jyb2s2ZCJ9.iuqhZ7H-tAqqyw_NpHpqAg' });
 
 // Custom hook to update the map's center
 function RecenterMap({ currentLocation }) {
@@ -60,12 +59,19 @@ function PlanRun() {
   const addPosition = async (e) => {
     const newPosition = [e.latlng.lat, e.latlng.lng];
     const snapped = await snapToRoad(newPosition[0], newPosition[1]); // Snap to road
-    setPositions([...positions, newPosition]);
-    setSnappedPositions([...snappedPositions, snapped]);
-    if (snappedPositions.length > 1) {
-      const totalDistance = calculateTotalDistance(snappedPositions);
+
+    // Update positions and snapped positions
+    const newPositions = [...positions, newPosition];
+    const newSnappedPositions = [...snappedPositions, snapped];
+    
+    setPositions(newPositions);
+    setSnappedPositions(newSnappedPositions);
+
+    if (newSnappedPositions.length > 1) {
+      const totalDistance = calculateTotalDistance(newSnappedPositions);
       setDistance(totalDistance);
-      const totalElevation = await calculateElevationGain(snappedPositions);
+
+      const totalElevation = await calculateElevationGain(newSnappedPositions);
       setElevationGain(totalElevation);
     }
   };
@@ -115,26 +121,6 @@ function PlanRun() {
       });
   };
 
-  // Export the route as a GPX file
-  const exportToGPX = () => {
-    const gpxData = {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'LineString',
-            coordinates: snappedPositions,
-          },
-        },
-      ],
-    };
-
-    const blob = new Blob([JSON.stringify(gpxData)], { type: 'application/gpx+xml' });
-    saveAs(blob, 'route.gpx');
-  };
-
   return (
     <>
       <Navbar /> {/* Add Navbar here */}
@@ -146,7 +132,7 @@ function PlanRun() {
           center={currentLocation}
           zoom={13}
           style={{ height: '500px', width: '100%' }}
-          onClick={addPosition}
+          onClick={addPosition} // Capture click to add positions
         >
           <TileLayer
             attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a>'
@@ -155,8 +141,7 @@ function PlanRun() {
           <RecenterMap currentLocation={currentLocation} />
           {snappedPositions.length > 0 && <Polyline positions={snappedPositions} color="blue" />}
         </MapContainer>
-        <button onClick={saveRoute}>Save Route</button>
-        <button onClick={exportToGPX}>Export Route as GPX</button>
+        <button onClick={saveRoute}>Save Route</button> {/* Single Save Button */}
       </div>
     </>
   );
