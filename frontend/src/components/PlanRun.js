@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Polyline, useMap, useMapEvents } from 'react-leaflet';
 import { getDistance } from 'geolib';
-import MapboxClient from '@mapbox/mapbox-sdk'; // Import Mapbox SDK
-import directions from '@mapbox/mapbox-sdk/services/directions'; // Import the Directions service
+import mbxClient from '@mapbox/mapbox-sdk';
+import mbxDirections from '@mapbox/mapbox-sdk/services/directions';
+
 import Navbar from './Navbar'; // Import Navbar
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
