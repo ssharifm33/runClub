@@ -9,7 +9,7 @@ function SavedRoutes() {
 
   useEffect(() => {
     // Fetch all saved routes from the back end
-    fetch('http://localhost:5001/routes')
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/routes`)
       .then((response) => response.json())
       .then((data) => setRoutes(data))
       .catch((error) => console.error('Error fetching routes:', error));

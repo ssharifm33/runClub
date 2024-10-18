@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar'; // Import the Navbar component
 import './LogRun.css'; // Assuming you have the CSS already
 
@@ -7,20 +6,33 @@ function LogRun() {
   const [date, setDate] = useState('');
   const [distance, setDistance] = useState('');
   const [time, setTime] = useState('');
-  const navigate = useNavigate();
+  // Removed navigate since it's not needed
+  // const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newRun = { date, distance, time };
 
-    fetch('${API_BASE_URL}/runs', {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/runs`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newRun),
     })
       .then((response) => response.json())
-      .then(() => {
-        navigate('/'); // Redirect to the dashboard
+      .then((data) => {
+        console.log('Run logged successfully:', data);
+        // Reset form fields
+        setDate('');
+        setDistance('');
+        setTime('');
+        // Optionally show a success message
+        alert('Run logged successfully!');
+        // If you want to redirect, uncomment the next line
+        // navigate('/'); // Redirect to the dashboard
+      })
+      .catch((error) => {
+        console.error('Error logging run:', error);
+        alert('Failed to log run. Please try again.');
       });
   };
 
@@ -41,7 +53,7 @@ function LogRun() {
           </label>
           <br />
           <label>
-            Distance (km):
+            Distance (mi):
             <input
               type="number"
               step="0.01"

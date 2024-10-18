@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Polyline, useMap, useMapEvents } from 'react-leaflet';
 import { getDistance } from 'geolib';
-import mbxClient from '@mapbox/mapbox-sdk';
-import mbxDirections from '@mapbox/mapbox-sdk/services/directions';
+import mbxClient from '@mapbox/mapbox-sdk'; // Import Mapbox SDK
+import mbxDirections from '@mapbox/mapbox-sdk/services/directions'; // Import Mapbox Directions API
 
 import Navbar from './Navbar'; // Import Navbar
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility';
 import './PlanRun.css'; // Import PlanRun CSS
 
-// Initialize the Mapbox client
-const mapboxClient = new MapboxClient({ accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN });
 
-// Initialize the Directions service
-const directionsService = directions(mapboxClient); // Create an instance of the directions service
+
+// Initialize Mapbox client with your access token
+const MapboxClient = mbxClient({ accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN });
+const directionsService = mbxDirections(MapboxClient);
+
+
+
+
 
 // RecenterMap component to center map based on current location
 function RecenterMap({ currentLocation }) {
@@ -159,7 +163,7 @@ const saveRoute = () => {
     date: new Date().toISOString()  // Store the date when the route was created
   };
 
-  fetch('${API_BASE_URL}/routes', {
+  fetch(`${process.env.REACT_APP_API_BASE_URL}/runs`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newRoute),
