@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-amplify/ui-react": "^6.5.4",
     "@mapbox/mapbox-sdk": "^0.16.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "aws-amplify": "^6.6.5",
     "bootstrap": "^5.3.3",
     "file-saver": "^2.0.5",
     "geolib": "^3.3.4",

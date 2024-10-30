@@ -1,18 +1,27 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-// S
+import { Amplify } from 'aws-amplify';
+import awsconfig from './aws-exports'; // Correctly import the awsconfig
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+Amplify.configure({
+  Auth: {
+    region: 'us-east-2',
+    userPoolId: 'us-east-2_rtej0gsJq',
+    userPoolWebClientId: '7t2snkjjf1ltiifaab2jn8kif9',
+    mandatorySignIn: true,
+    oauth: {},
+  },
+});
+
+
+ReactDOM.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
